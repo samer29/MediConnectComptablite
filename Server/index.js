@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Server Port
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 4002;
 
 // Start Server
 app.listen(PORT, "0.0.0.0", () => {
