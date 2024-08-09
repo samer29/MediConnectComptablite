@@ -1,11 +1,11 @@
 :root {
---background-color: #2e344a;
+--background-color-login: #2e344a;
 --text-color:#99a2c6;
 --button-color:#7466f0;
 --second-color :#F5F5F5;
 }
 .login{
-    background-color:var(--background-color);
+    background-color:var(--background-color-login);
     width: 100%;
     height: 100vh;
     display: flex;

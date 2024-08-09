@@ -1,5 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import "./App.css";
+import "./Services/i18n.js";
 import {
   Routes,
   BrowserRouter as Router,

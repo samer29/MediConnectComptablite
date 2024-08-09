@@ -1,7 +1,19 @@
 :root {
+    --background-color: #2e344a;
+    --text-color:#99a2c6;
+    --button-color:#7466f0;
+    --second-color :#F5F5F5;
     --font-family: 'Roboto', sans-serif;
 }
-
 * {
     font-family: var(--font-family);
 }
+
+   
+  .body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  

@@ -1,0 +1,33 @@
+:root {
+  --background-color-homepage: #F3F4F8;
+}
+
+.main-div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--background-color-homepage);
+}
+
+.nav-bar {
+  width: 100%;
+  height: 76px;
+  background-color: var(--background-color-navbar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  display: flex;
+  height: calc(100vh - 76px); /* Subtract the height of the navbar */
+}
+
+.main-content {
+  flex-grow: 1;
+  background-color: var(--background-color-homepage);
+  padding: 20px;
+}
