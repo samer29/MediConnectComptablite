@@ -9,32 +9,32 @@ export const SidebarData = () => {
     {
       title: t("Home"),
       icon: <i className="bi bi-house-door"></i>,
-      link: "/",
+      component: "Home",
     },
     {
       title: t("employees"),
-      icon: <i class="bi bi-people"></i>,
-      link: "/employees",
+      icon: <i className="bi bi-people"></i>,
+      component: "Employees",
     },
     {
       title: t("mission_order"),
-      icon: <i class="bi bi-ticket-detailed"></i>,
-      link: "/missionorder",
+      icon: <i className="bi bi-ticket-detailed"></i>,
+      component: "MissionOrder",
     },
     {
       title: t("Settings"),
       icon: <i className="bi bi-gear"></i>,
-      link: "/settings",
+      component: "Settings",
     },
     {
       title: t("Printing"),
       icon: <i className="bi bi-printer"></i>,
-      link: "/printing",
+      component: "Printing",
     },
     {
       title: t("About"),
-      icon: <i class="bi bi-info-circle"></i>,
-      link: "/about",
+      icon: <i className="bi bi-info-circle"></i>,
+      component: "About",
     },
   ];
 };

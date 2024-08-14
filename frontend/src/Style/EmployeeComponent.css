@@ -1,0 +1,154 @@
+/* General Table Styles */
+
+.employees-container{
+  width: 100%;
+  padding: 20px;
+}
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; /* Smaller font size */
+}
+
+th, td {
+  text-align: left;
+  padding: 10px 12px; /* Adjusted padding for smaller size */
+  vertical-align: middle;
+}
+
+th {
+  background-color: #f3f7fa;
+  color: #333;
+  font-weight: bold;
+}
+
+td {
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+}
+
+/* Row Hover Effect */
+tr:hover td {
+  background-color: #f1f1f1;
+}
+
+/* Avatar in the Name Column */
+.avatar {
+  width: 35px; /* Smaller avatar size */
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+}
+
+/* Status Badge */
+.status {
+  padding: 4px 8px; /* Smaller padding for badges */
+  border-radius: 10px;
+  font-size: 11px; /* Smaller font size for badges */
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Status Colors */
+.status.active {
+  background-color: #d4f4dd;
+  color: #28a745;
+}
+
+.status.inactive {
+  background-color: #fde6b5;
+  color: #ffb600;
+}
+
+.status.offline {
+  background-color: #ffd8d6;
+  color: #dc3545;
+}
+
+/* Pagination and Search */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.pagination button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #333;
+  padding: 5px 10px;
+  margin: 0 2px;
+  font-size: 14px; /* Smaller font size for pagination */
+}
+
+.pagination button:hover {
+  background-color: #eaeaea;
+  border-radius: 5px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 6px 10px; /* Adjusted padding for smaller size */
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  width: 180px; /* Smaller input width */
+}
+
+.search-bar select {
+  padding: 6px 10px; /* Adjusted padding for smaller size */
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  width: 130px; /* Smaller select width */
+}
+
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #7466f0; /* Purple background */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+  color: white;
+  font-size: 24px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 0; /* Ensure the plus sign is centered */
+}
+
+.fab:hover {
+  background-color: #9b30ff; /* Lighter purple on hover */
+}
+
+.fab span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: inline-block;
+  line-height: 1; /* Reset the line-height to ensure the plus sign is centered */
+  font-size: 32px; /* Adjust font size to make the plus sign bigger */
+  transform: translate(0%, -10%);
+}
+

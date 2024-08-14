@@ -9,7 +9,7 @@ router
 
 router
   .route("/:id")
-  .patch(employeeController.editEmployee)
+  .put(employeeController.editEmployee)
   .delete(employeeController.deleteEmployee);
 
 module.exports = router;

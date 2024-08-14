@@ -1,13 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import "../App.css";
+import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "../Style/Sidebar.css";
-import { SidebarData } from "./SidebarData"; // Assuming SidebarData is a function
+import { SidebarData } from "./SidebarData";
 
-function Sidebar() {
-  const navigate = useNavigate();
-
-  // SidebarData() is called to get the array
+function Sidebar({ setActiveComponent }) {
   const sidebarItems = SidebarData();
 
   return (
@@ -20,7 +15,7 @@ function Sidebar() {
               className="row"
               id={window.location.pathname === val.link ? "active" : ""}
               onClick={() => {
-                navigate(val.link);
+                setActiveComponent(val.component); // Change content without navigation
               }}
             >
               <div id="icon">{val.icon}</div>

@@ -9,11 +9,16 @@
     font-family: var(--font-family);
 }
 
-   
-  .body {
+
+  
+  html, body, #root {
+    height: 100%;
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
-  }
-  
+}
+
+.App {
+  display: flex;
+  height: 100%;
+}
+

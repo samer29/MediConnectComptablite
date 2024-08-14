@@ -1,6 +1,11 @@
 import { Fragment, useState, useEffect } from "react";
 import "./App.css";
 import "./Services/i18n.js";
+import "primereact/tabview";
+import "./Services/api.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 import {
   Routes,
   BrowserRouter as Router,

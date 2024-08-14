@@ -8,8 +8,17 @@
   display: flex;
   flex-direction: row;
   background-color: var(--background-color-homepage);
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 100%;
 }
+.content-div{
+  width: 100%;
+  height: 100%;
 
+  display: flex;
+  flex-direction: column;
+}
 .nav-bar {
   width: 100%;
   height: 76px;
