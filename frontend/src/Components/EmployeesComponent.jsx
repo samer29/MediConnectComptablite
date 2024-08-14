@@ -3,12 +3,14 @@ import { useTranslation } from "react-i18next";
 import api from "../Services/api";
 import "../Style/EmployeeComponent.css";
 import { Button } from "react-bootstrap";
+import AddEmployeeModal from "./AddNewEmployee"; // Updated import
 
 const EmployeesComponent = () => {
   const { t } = useTranslation();
   const [employees, setEmployees] = useState([]);
   const [editingCell, setEditingCell] = useState(null);
   const [editedValue, setEditedValue] = useState("");
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -50,17 +52,17 @@ const EmployeesComponent = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (editingCell && e.key === "Enter") {
       handleBlur();
     }
   };
+
   const handleAddClick = () => {
-    // Logic to handle adding a new employee, e.g., open a modal or navigate to a form
-    console.log("FAB clicked!");
+    setModalShow(true); // Open the modal
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this employee?")) {
+    if (window.confirm(t("Sure_Deleting_Employee"))) {
       try {
         await api.delete(`/employee/${id}`);
         setEmployees((prevEmployees) =>
@@ -83,7 +85,7 @@ const EmployeesComponent = () => {
             <th>{t("Categorie")}</th>
             <th>{t("Compte")}</th>
             <th>{t("NCompte")}</th>
-            <th>{t("Actions")}</th> {/* New Actions column */}
+            <th>{t("Actions")}</th> {/* Actions column */}
           </tr>
         </thead>
         <tbody>
@@ -189,7 +191,6 @@ const EmployeesComponent = () => {
                 )}
               </td>
               <td>
-                {/* Delete button */}
                 <Button
                   className="btn btn-danger"
                   onClick={() => handleDelete(employee.ID)}
@@ -201,9 +202,22 @@ const EmployeesComponent = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Floating Action Button */}
       <div className="fab" onClick={handleAddClick} title={t("AddNewEmployee")}>
         <span>+</span>
       </div>
+
+      {/* Add Employee Modal */}
+      <AddEmployeeModal
+        fetchEmployees={() => {
+          api.get("/employee").then((response) => {
+            setEmployees(response.data.result);
+          });
+        }}
+        modalShow={modalShow}
+        setModalShow={setModalShow}
+      />
     </div>
   );
 };

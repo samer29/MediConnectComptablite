@@ -25,7 +25,7 @@ const resources = {
       Error: "Error",
       RequiredField: "There fields can not be empty !",
       Succes: "Success ! ",
-      Add_Budget_Succes: "Added Successfully",
+      Budget_Added_Successfully : "Added Successfully",
       Error_Adding_Or_Updating_Budget:
         "There is an error while adding or updating !",
       Add_New_Budget: "Add New Article to the budget",
@@ -41,6 +41,10 @@ const resources = {
       NCompte: "Account Number",
       Actions: "Delete",
       AddNewEmployee: "Add New Employee",
+      Employee_Added_Successfully: "Employee Added Successfully",
+      Error_Adding_Employee: "Error adding Employee",
+      Add_New_Employee: "Add New Employee ",
+      Sure_Deleting_Employee: "Are you sure you want to delete this employee?",
     },
   },
   fr: {
@@ -66,7 +70,7 @@ const resources = {
       Error: "Erreur",
       RequiredField: "Tous les champs sont obligatoires",
       Succes: "Succès ! ",
-      Add_Budget_Succes: "Ajouté avec succès",
+      Budget_Added_Successfully: "Ajouté avec succès",
       Error_Adding_Or_Updating_Budget: "Erreur d'Ajout  ou modification!",
       Add_New_Budget: "Ajouter un nouveau article ",
       Close: "Fermer",
@@ -81,6 +85,11 @@ const resources = {
       NCompte: "Num Compte",
       Actions: "Supprimer",
       AddNewEmployee: "Ajouter un Nouveau employé ",
+      Employee_Added_Successfully: "Employé ajouté avec succès",
+      Error_Adding_Employee: "Erreur lors de l'ajout d'un employé",
+      Add_New_Employee: "Ajouter un Nouveau Employé ",
+      Sure_Deleting_Employee:
+        "Êtes-vous sûr de vouloir supprimer cet employé ?",
     },
   },
 };
