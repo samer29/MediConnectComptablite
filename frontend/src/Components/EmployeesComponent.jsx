@@ -201,7 +201,7 @@ const EmployeesComponent = () => {
           ))}
         </tbody>
       </table>
-      <div className="fab" onClick={handleAddClick}>
+      <div className="fab" onClick={handleAddClick} title={t("AddNewEmployee")}>
         <span>+</span>
       </div>
     </div>
