@@ -9,7 +9,11 @@ router
 
 router
   .route("/:id")
+  .get(employeeController.getEmployeeById) // Add this line
   .put(employeeController.editEmployee)
   .delete(employeeController.deleteEmployee);
+router
+  .route("/nomprenom/:nomPrenom")
+  .get(employeeController.getEmployeeByNomPrenom);
 
 module.exports = router;

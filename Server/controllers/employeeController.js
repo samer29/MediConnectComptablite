@@ -97,7 +97,6 @@ exports.editEmployee = (req, res) => {
   }
 };
 
-
 exports.deleteEmployee = (req, res) => {
   const id = req.params.id;
   try {
@@ -115,5 +114,47 @@ exports.deleteEmployee = (req, res) => {
   } catch (error) {
     console.log("Error in delete employee:", error.message);
     res.status(500).send("Server Error: " + error.message);
+  }
+};
+// Existing code...
+
+exports.getEmployeeById = (req, res) => {
+  const id = req.params.id;
+  try {
+    con.query("SELECT * FROM employee WHERE ID=?", [id], (err, result) => {
+      if (err) {
+        console.log("Error fetching employee by ID:", err.message);
+        res.status(500).send("Fetch error: " + err.message);
+      } else if (result.length === 0) {
+        res.status(404).send("Employee not found");
+      } else {
+        res.status(200).json(result[0]); // Return the single employee object
+      }
+    });
+  } catch (error) {
+    console.log("Error fetching employee by ID:", error.message);
+    res.status(500).send("Server Error: " + error.message);
+  }
+};
+exports.getEmployeeByNomPrenom = (req, res) => {
+  const nomPrenom = req.params.nomPrenom;
+  try {
+    con.query(
+      "SELECT * FROM employee WHERE NomPrenom = ?",
+      [nomPrenom],
+      (err, result) => {
+        if (err) {
+          console.log("Error fetching employee:", err.message);
+          res.status(500).send("Server Error");
+        } else if (result.length === 0) {
+          res.status(404).send("Employee not found");
+        } else {
+          res.status(200).json(result[0]);
+        }
+      }
+    );
+  } catch (error) {
+    console.log("Error fetching employee:", error.message);
+    res.status(500).send("Server Error");
   }
 };

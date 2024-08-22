@@ -9,7 +9,7 @@ router
 
 router
   .route("/:id")
-  .patch(ordremissionController.editOrdremission)
+  .put(ordremissionController.editOrdremission)
   .delete(ordremissionController.deleteOrdremission);
 
 module.exports = router;

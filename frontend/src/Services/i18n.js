@@ -25,7 +25,7 @@ const resources = {
       Error: "Error",
       RequiredField: "There fields can not be empty !",
       Succes: "Success ! ",
-      Budget_Added_Successfully : "Added Successfully",
+      Budget_Added_Successfully: "Added Successfully",
       Error_Adding_Or_Updating_Budget:
         "There is an error while adding or updating !",
       Add_New_Budget: "Add New Article to the budget",
@@ -45,6 +45,28 @@ const resources = {
       Error_Adding_Employee: "Error adding Employee",
       Add_New_Employee: "Add New Employee ",
       Sure_Deleting_Employee: "Are you sure you want to delete this employee?",
+      ListOrdre: "List of mission orders",
+      ListMandat: "List of mandates",
+      Sure_Deleting_OrdreMission:
+        "Are you sure you want to delete this Mission Order?",
+      Yes: "Yes",
+      No: "No",
+      Prise_En_Charge: "Total Support",
+      HeureRetour: "Time Return",
+      DateRetour: "Date Return",
+      Select_Destination: "Select Destination",
+      Destination: "Destination",
+      HeureDepart: "Departure Time",
+      DateDepart: "Departure Date",
+      Select_Employee: "Select Employee",
+      NumOrdreMission: "Mission Order Number",
+      Add_New_OrderMission: "Add New Mission Order",
+      Error_Adding_Or_Updating_OrderMission:
+        "Error adding or updating a mission order",
+      OrdreMission_Added_Successfully: "Mission Order Added Successfully",
+      Error_Fetching_Employee: "Error Fetching data Employee",
+      DateRetourAfterDateDepart:
+        "Return date cannot be before the Departure date",
     },
   },
   fr: {
@@ -90,6 +112,28 @@ const resources = {
       Add_New_Employee: "Ajouter un Nouveau Employé ",
       Sure_Deleting_Employee:
         "Êtes-vous sûr de vouloir supprimer cet employé ?",
+      ListOrdre: "Liste des Ordres missions ",
+      ListMandat: "Liste des mandats ",
+      Sure_Deleting_OrdreMission:
+        "Êtes-vous sûr de vouloir supprimer cette Ordre de mission",
+      Yes: "Yes",
+      No: "No",
+      Prise_En_Charge: "Total Support",
+      HeureRetour: "Time Return",
+      DateRetour: "Date Return",
+      Select_Destination: "Select Destination",
+      Destination: "Destination",
+      HeureDepart: "Departure time",
+      DateDepart: "Departure date",
+      Select_Employee: "Select employee",
+      NumOrdreMission: "Mission Order Number",
+      Add_New_OrderMission: "Add new mission order",
+      Error_Adding_Or_Updating_OrderMission:
+        "Error adding or updating a mission order",
+      OrdreMission_Added_Successfully: "Mission Order Added Successfully",
+      Error_Fetching_Employee: "Error Fetching data Employee",
+      DateRetourAfterDateDepart:
+        "Return date cannot be before the Departure date",
     },
   },
 };

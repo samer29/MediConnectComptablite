@@ -107,7 +107,6 @@ exports.insertOrdremission = (req, res) => {
     Destination,
     PriseEnCharge,
     Motif,
-    Accompagnateur,
     VehiculePersonnel,
     NbrDejeuner,
     DecompteDejuner,
@@ -122,7 +121,7 @@ exports.insertOrdremission = (req, res) => {
   } = req.body;
   try {
     con.query(
-      "INSERT INTO ordremission (Num, NomPrenom, NumMandat, DateDepart, HeureDepart, DateRetour, HeureRetour, Destination, PriseEnCharge, Motif, Accompagnateur, VehiculePersonnel, NbrDejeuner, DecompteDejuner, NbrDiner, DecompteDiner, NbrDecoucher, DecompteDecoucher, DecompteTransport, Kilometrage, Total, NetAPayer) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO ordremission (Num, NomPrenom, NumMandat, DateDepart, HeureDepart, DateRetour, HeureRetour, Destination, PriseEnCharge, Motif, VehiculePersonnel, NbrDejeuner, DecompteDejuner, NbrDiner, DecompteDiner, NbrDecoucher, DecompteDecoucher, DecompteTransport, Kilometrage, Total, NetAPayer) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       [
         Num,
         NomPrenom,
@@ -134,7 +133,6 @@ exports.insertOrdremission = (req, res) => {
         Destination,
         PriseEnCharge,
         Motif,
-        Accompagnateur,
         VehiculePersonnel,
         NbrDejeuner,
         DecompteDejuner,
