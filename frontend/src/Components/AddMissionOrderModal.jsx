@@ -84,13 +84,11 @@ const AddMissionOrderModal = ({
     setKilometrage(0);
     setTotal(0);
     setNetAPayer(0);
-  };
-  // Function to calculate the number of Dejeuner, Diner, and Decoucher
+  }; // Function to calculate the number of Dejeuner, Diner, and Decoucher
   const calculateNbrDejeuner = () => {
     const start = new Date(`${dateDepart}T${heureDepart}`);
-    console.log("start", start);
     const end = new Date(`${dateRetour}T${heureRetour}`);
-    console.log("end ", end);
+
     let dejeuner = 0;
     let diner = 0;
     let decoucher = 0;
@@ -108,13 +106,7 @@ const AddMissionOrderModal = ({
     if (totalDays === 0 && start.getDate() !== end.getDate()) {
       totalDays += 1;
     }
-    console.log("total days : ", totalDays);
 
-    if (totalDays === 0) {
-      if (end.getHours() < 18) {
-        diner -= 1;
-      }
-    }
     if (totalDays > 0) {
       dejeuner += totalDays;
       diner += totalDays;
@@ -131,76 +123,80 @@ const AddMissionOrderModal = ({
       if (end.getHours() < 18) {
         diner -= 1;
       }
+    } else {
+      if (end.getHours() < 18) {
+        diner -= 1;
+      }
     }
 
-    // Calculate Decoucher (Ensure only one night is added)
     if (totalDays > 0 || end.getDate() !== start.getDate()) {
-      decoucher = totalDays; // Number of full nights in between
+      decoucher = totalDays;
     }
 
     setNbrDejeuner(dejeuner);
     setNbrDiner(diner);
     setNbrDecoucher(decoucher);
 
-    // Log for debugging
-    console.log(
-      "Dejeuner:",
-      dejeuner,
-      "Diner:",
-      diner,
-      "Decoucher:",
-      decoucher
-    );
+    return { dejeuner, diner, decoucher }; // Return the values for immediate use
   };
 
   // Function to calculate the NetAPayer
   const calculateNetAPayer = () => {
-    calculateNbrDejeuner(); // Ensure the meal counts are updated first
+    const { dejeuner, diner, decoucher } = calculateNbrDejeuner(); // Get meal counts immediately
 
     let newDecompteDejeuner = 0;
     let newDecompteDiner = 0;
     let newDecompteDecoucher = 0;
 
-    // Ensure categorie is properly set before calculations
     if (categorie !== null) {
       if (categorie >= 1 && categorie <= 10) {
-        newDecompteDejeuner = 600 * nbrDejeuner;
-        newDecompteDiner = 600 * nbrDiner;
-        newDecompteDecoucher = 2400 * nbrDecoucher;
+        newDecompteDejeuner = 600 * dejeuner;
+        newDecompteDiner = 600 * diner;
+        newDecompteDecoucher = 2400 * decoucher;
       } else if (categorie >= 11 && categorie <= 17) {
-        newDecompteDejeuner = 800 * nbrDejeuner;
-        newDecompteDiner = 800 * nbrDiner;
-        newDecompteDecoucher = 3200 * nbrDecoucher;
+        newDecompteDejeuner = 800 * dejeuner;
+        newDecompteDiner = 800 * diner;
+        newDecompteDecoucher = 3200 * decoucher;
       } else if (categorie > 17) {
-        newDecompteDejeuner = 1600 * nbrDejeuner;
-        newDecompteDiner = 1600 * nbrDiner;
-        newDecompteDecoucher = 6400 * nbrDecoucher;
+        newDecompteDejeuner = 1600 * dejeuner;
+        newDecompteDiner = 1600 * diner;
+        newDecompteDecoucher = 6400 * decoucher;
+      }
+
+      const totalCalculated =
+        newDecompteDejeuner +
+        newDecompteDiner +
+        newDecompteDecoucher +
+        decompteTransport;
+
+      let net = 0;
+      if (priseEnCharge === "Yes") {
+        net = totalCalculated * 0.25;
+      } else {
+        net = totalCalculated;
       }
 
       setDecompteDejeuner(newDecompteDejeuner);
       setDecompteDiner(newDecompteDiner);
       setDecompteDecoucher(newDecompteDecoucher);
-
-      let total =
-        newDecompteDejeuner +
-        newDecompteDiner +
-        newDecompteDecoucher +
-        decompteTransport;
-      let net = 0;
-      if (priseEnCharge === "Yes") {
-        net = total * 0.25;
-      } else {
-        net = total;
-      }
       setNetAPayer(net);
-      setTotal(total);
+      setTotal(totalCalculated);
 
-      // Log for debugging
       console.log("Net à Payer:", net);
     }
   };
 
-
+  // Use the new calculateNetAPayer method
+  useEffect(() => {
+    calculateNetAPayer(); // Run NetAPayer calculation after nbrDejeuner, nbrDiner, nbrDecoucher change
+  }, [
+    dateDepart,
+    heureDepart,
+    dateRetour,
+    heureRetour,
+    categorie,
+    priseEnCharge,
+  ]);
 
   useEffect(() => {
     const fetchEmployeesData = async () => {
@@ -236,14 +232,10 @@ const AddMissionOrderModal = ({
       console.log("Category updated:", categorie);
     }
   }, [categorie]);
-  useEffect(() => {
-    calculateNetAPayer(); // Run NetAPayer calculation after nbrDejeuner, nbrDiner, nbrDecoucher change
-  }, [nbrDejeuner, nbrDiner, nbrDecoucher]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    calculateNbrDejeuner();
-    calculateNetAPayer();
+    await calculateNetAPayer();
     setTimeout(async () => {
       const ordremission = {
         Num: num,
@@ -317,7 +309,7 @@ const AddMissionOrderModal = ({
         </Modal.Header>
 
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div className="row my-3">
               <div className="col">
                 <label htmlFor="NumOrdreMission">{t("NumOrdreMission")}</label>
@@ -435,7 +427,10 @@ const AddMissionOrderModal = ({
                 </select>
               </div>
               <div className="col d-flex justify-content-end align-items-end">
-                <button className="btn btn-primary form-control">
+                <button
+                  onClick={handleSubmit}
+                  className="btn btn-primary form-control"
+                >
                   {t("Submit")}
                 </button>
               </div>
