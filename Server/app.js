@@ -7,6 +7,7 @@ const employeeRouter = require("./routes/employeeRoutes");
 const mandatRouter = require("./routes/mandatRoutes");
 const gradesRouter = require("./routes/gradesRoutes");
 const userRoutes = require("./routes/userRoute");
+const etatRoutes = require("./routes/etatRoutes");
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use("/budget", budgetRouter);
 app.use("/employee", employeeRouter);
 app.use("/mandat", mandatRouter);
 app.use("/grades", gradesRouter);
+app.use("/etat", etatRoutes);
 
 module.exports = app;

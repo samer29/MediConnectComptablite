@@ -5,6 +5,7 @@ import "primereact/tabview";
 import "./Services/api.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
   Routes,
@@ -15,6 +16,7 @@ import {
 import Homepage from "./Components/Homepage";
 import api from "./Services/api";
 import Login from "./Components/Login.jsx";
+import EtatDetails from "./Components/EtatMissions.jsx";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -62,6 +64,14 @@ function App() {
                 ) : (
                   <Navigate to="/" />
                 )
+              }
+            />
+          </Routes>
+          <Routes>
+            <Route
+              path="/etat/:etatId"
+              element={
+                isAuthenticated ? <EtatDetails /> : <Navigate to="/login" />
               }
             />
           </Routes>

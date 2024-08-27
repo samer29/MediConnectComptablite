@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import api from "../Services/api";
 import { useTranslation } from "react-i18next";
+
 import wilayasAlgeria from "../Wilaya_Of_Algeria.json";
 const AddMissionOrderModal = ({
   fetchEmployees,
@@ -34,15 +35,20 @@ const AddMissionOrderModal = ({
   const [categorie, setCategorie] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [selectedEmployeeID, setSelectedEmployeeID] = useState(""); // New state for selected ID
-  const [selectedWilaya, setselectedWilaya] = useState("");
 
   useEffect(() => {
     if (currentMissionOrder) {
       setNum(currentMissionOrder.Num);
+      setSelectedEmployeeID(currentMissionOrder.EmployeeId);
       setNomPrenom(currentMissionOrder.NomPrenom);
-      setDateDepart(currentMissionOrder.DateDepart);
+      setDateDepart(
+        new Date(currentMissionOrder.DateDepart).toLocaleDateString()
+      );
+      console.log(currentMissionOrder.DateDepart);
       setHeureDepart(currentMissionOrder.HeureDepart);
-      setDateRetour(currentMissionOrder.DateRetour);
+      setDateRetour(
+        new Date(currentMissionOrder.DateRetour).toLocaleDateString()
+      );
       setHeureRetour(currentMissionOrder.HeureRetour);
       setDestination(currentMissionOrder.Destination);
       setPriseEnCharge(currentMissionOrder.PriseEnCharge);
@@ -190,10 +196,12 @@ const AddMissionOrderModal = ({
   useEffect(() => {
     calculateNetAPayer(); // Run NetAPayer calculation after nbrDejeuner, nbrDiner, nbrDecoucher change
   }, [
+    num,
     dateDepart,
     heureDepart,
     dateRetour,
     heureRetour,
+    destination,
     categorie,
     priseEnCharge,
   ]);
@@ -240,6 +248,7 @@ const AddMissionOrderModal = ({
       const ordremission = {
         Num: num,
         NomPrenom: nomPrenom,
+        EmployeeId: selectedEmployeeID,
         NumMandat: currentMissionOrder?.NumMandat || "", // Assuming NumMandat is part of currentMissionOrder
         DateDepart: dateDepart,
         HeureDepart: heureDepart,
@@ -328,7 +337,7 @@ const AddMissionOrderModal = ({
                 <label htmlFor="employee-select">{t("Select_Employee")}</label>
                 <select
                   id="employee-select"
-                  className="form-control"
+                  className="form-select"
                   value={selectedEmployeeID} // Bind value to selectedEmployeeID
                   onChange={handleEmployeeChange}
                   required
@@ -371,9 +380,9 @@ const AddMissionOrderModal = ({
               <div className="col">
                 <label htmlFor="Destination">{t("Destination")}</label>
                 <select
-                  value={selectedWilaya}
-                  onChange={(e) => setselectedWilaya(e.target.value)}
-                  className="form-control"
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  className="form-select"
                   id="Destination"
                   required
                 >
@@ -416,7 +425,7 @@ const AddMissionOrderModal = ({
                   required
                   value={priseEnCharge}
                   onChange={(e) => setPriseEnCharge(e.target.value)}
-                  className="form-control"
+                  className="form-select"
                   id="PriseEnCharge"
                 >
                   <option value="" disabled>

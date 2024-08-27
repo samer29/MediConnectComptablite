@@ -1,0 +1,39 @@
+.etat-missions-page {
+    display: flex;
+  }
+  
+  .content-div {
+    width: 100%;
+  }
+  
+  .etat-missions-container {
+    padding: 20px;
+    margin: auto;
+    max-width: 900px;
+  }
+  
+  .centered-text {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20;
+  }
+  
+  .etat-missions-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+  }
+  
+  .etat-missions-table th,
+  .etat-missions-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .centered-button {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+  }
+  

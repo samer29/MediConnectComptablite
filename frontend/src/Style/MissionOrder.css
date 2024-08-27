@@ -52,7 +52,6 @@
     transition: background-color 0.3s ease;
     line-height: 0; /* Ensure the plus sign is centered */
   }
-  
   .AddNewMissionPlus:hover {
     background-color: #9b30ff; /* Lighter purple on hover */
   }
@@ -68,3 +67,35 @@
   }
   
   
+  .AddNewEtatPlus {
+    position: fixed;
+    bottom: 20px;
+    right: 100px;
+    width: 100px;
+    height: 60px;
+    background-color: #1b0f8a; /* Purple background */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+    color: white;
+    font-size: 24px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    line-height: 0; /* Ensure the plus sign is centered */
+  }
+  .AddNewEtatPlus:hover {
+    background-color: #1029bb; /* Lighter purple on hover */
+  }
+  
+  .AddNewEtatPlus span {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: inline-block;
+    line-height: 1; /* Reset the line-height to ensure the plus sign is centered */
+    transform: translate(0%, -10%);
+  }
