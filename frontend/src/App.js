@@ -17,6 +17,7 @@ import Homepage from "./Components/Homepage";
 import api from "./Services/api";
 import Login from "./Components/Login.jsx";
 import EtatDetails from "./Components/EtatMissions.jsx";
+import OrderMissionDetail from "./Components/OrderMissionDetail.jsx";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -72,6 +73,18 @@ function App() {
               path="/etat/:etatId"
               element={
                 isAuthenticated ? <EtatDetails /> : <Navigate to="/login" />
+              }
+            />
+          </Routes>
+          <Routes>
+            <Route
+              path="/OMDetail/:orderId"
+              element={
+                isAuthenticated ? (
+                  <OrderMissionDetail />
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
             />
           </Routes>

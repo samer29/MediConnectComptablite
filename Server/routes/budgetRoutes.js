@@ -11,5 +11,6 @@ router
   .route("/:id")
   .patch(budgetController.editBudget)
   .delete(budgetController.deleteBudget);
+router.route("/specific").get(budgetController.getSpecificBudget);
 
 module.exports = router;

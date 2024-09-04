@@ -1,0 +1,15 @@
+.mission-detail-table {
+  font-size: 12px; /* or use em/rem depending on your design system */
+  font-weight: 300;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}

@@ -87,3 +87,27 @@ exports.deleteBudget = (req, res) => {
     res.status(500).send("Server Error: " + error.message);
   }
 };
+exports.getSpecificBudget = (req, res) => {
+  const { titre, chapitre, article } = req.query;
+
+  try {
+    con.query(
+      "SELECT * FROM budget WHERE Titre = ? AND Chapitre = ? AND Article = ?",
+      [titre, chapitre, article],
+      (err, result) => {
+        if (err) {
+          console.log("Error fetching specific budget:", err.message);
+          res.status(500).send("Server Error");
+        } else {
+          res.status(200).json({
+            results: result.length,
+            result,
+          });
+        }
+      }
+    );
+  } catch (error) {
+    console.log("Error fetching specific budget:", error.message);
+    res.status(500).send("Server Error");
+  }
+};

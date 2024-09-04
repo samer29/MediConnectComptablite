@@ -69,8 +69,8 @@
   
   .AddNewEtatPlus {
     position: fixed;
-    bottom: 20px;
-    right: 100px;
+    bottom: 100px;
+    right: 10px;
     width: 100px;
     height: 60px;
     background-color: #1b0f8a; /* Purple background */

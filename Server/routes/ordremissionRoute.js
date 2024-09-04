@@ -12,14 +12,18 @@ router
 router
   .route("/:id")
   .put(ordremissionController.editOrdremission)
-  .delete(ordremissionController.deleteOrdremission);
+  .delete(ordremissionController.deleteOrdremission)
+  .get(ordremissionController.getMissionOrderByNum);
 router.get("/employeeMissions", ordremissionController.getEmployeeMissions);
 router.put("/updateNumMandat/:num", ordremissionController.updateNumMandat);
 router.put(
   "/updateDeleteNumMandat/:num",
   ordremissionController.updateDeleteNumMandat
 );
-router.route("/:NumMandat").get(ordremissionController.getMissionAndNumMandat);
+router
+  .route("/NewEtat/:NumMandat")
+  .get(ordremissionController.getMissionAndNumMandat);
 router.get("/nomprenom/:num", ordremissionController.getNomPrenomFromOM);
+router.route("/calculatemeals").post(ordremissionController.calculateMeals);
 
 module.exports = router;

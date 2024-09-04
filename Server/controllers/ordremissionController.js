@@ -1,5 +1,4 @@
 const con = require("../db");
-
 // Get all ordremissions
 exports.getOrdremission = (req, res) => {
   try {
@@ -342,4 +341,107 @@ exports.getNomPrenomFromOM = (req, res) => {
     console.log("Error:", error.message);
     res.status(500).json({ error: "Server error" });
   }
+};
+exports.getMissionOrderByNum = (req, res) => {
+  const { id } = req.params; // Get the id from the URL parameters
+
+  if (!id) {
+    return res.status(400).json({ error: "Num is required" });
+  }
+
+  try {
+    con.query(
+      "SELECT * FROM ordremission WHERE Num = ?",
+      [id], // Use the id here
+      (err, result) => {
+        if (err) {
+          console.log("Error fetching mission order:", err.message);
+          return res.status(500).json({ error: "Failed to retrieve data" });
+        }
+
+        if (result.length === 0) {
+          return res.status(404).json({ error: "Mission not found" });
+        }
+
+        res.status(200).json(result);
+      }
+    );
+  } catch (error) {
+    console.log("Error:", error.message);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+const calculateMealsFunction = (
+  dateDepart,
+  heureDepart,
+  dateRetour,
+  heureRetour
+) => {
+  const start = new Date(`${dateDepart}T${heureDepart}`);
+  const end = new Date(`${dateRetour}T${heureRetour}`);
+
+  let dejeuner = 0;
+  let diner = 0;
+  let decoucher = 0;
+
+  // First day logic
+  if (start.getHours() <= 12) {
+    dejeuner += 1;
+  }
+  if (start.getHours() <= 18) {
+    diner += 1;
+  }
+
+  // Full days in between
+  let totalDays = Math.floor((end - start) / (1000 * 60 * 60 * 24));
+  if (totalDays === 0 && start.getDate() !== end.getDate()) {
+    totalDays += 1;
+  }
+
+  if (totalDays > 0) {
+    dejeuner += totalDays;
+    diner += totalDays;
+    decoucher += totalDays;
+
+    if (start.getHours() > 12) {
+      dejeuner -= 1;
+    }
+    if (start.getHours() > 18) {
+      diner -= 1;
+    }
+    if (end.getHours() < 12) {
+      dejeuner -= 1;
+    }
+    if (end.getHours() < 18) {
+      diner -= 1;
+    }
+  } else {
+    if (end.getHours() < 18) {
+      diner -= 1;
+    }
+  }
+
+  if (totalDays > 0 || end.getDate() !== start.getDate()) {
+    decoucher = totalDays;
+  }
+
+  return { dejeuner, diner, decoucher };
+};
+exports.calculateMeals = (req, res) => {
+  const { dateDepart, heureDepart, dateRetour, heureRetour } = req.body;
+
+  if (!dateDepart || !heureDepart || !dateRetour || !heureRetour) {
+    return res
+      .status(400)
+      .json({ error: "All date and time fields are required" });
+  }
+
+  const result = calculateMealsFunction(
+    dateDepart,
+    heureDepart,
+    dateRetour,
+    heureRetour
+  );
+
+  res.json(result);
 };

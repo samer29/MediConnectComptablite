@@ -134,6 +134,15 @@ const AddMissionOrderModal = ({
         diner -= 1;
       }
     }
+    if (
+      (end.getDate() !== start.getDate() && dejeuner === -1) ||
+      totalDays > 1
+    ) {
+      dejeuner++;
+    }
+    if (end.getDate() !== start.getDate() && diner === -1) {
+      diner++;
+    }
 
     if (totalDays > 0 || end.getDate() !== start.getDate()) {
       decoucher = totalDays;
@@ -176,7 +185,7 @@ const AddMissionOrderModal = ({
         decompteTransport;
 
       let net = 0;
-      if (priseEnCharge === "Yes") {
+      if (priseEnCharge === "Oui") {
         net = totalCalculated * 0.25;
       } else {
         net = totalCalculated;
@@ -194,7 +203,18 @@ const AddMissionOrderModal = ({
 
   // Use the new calculateNetAPayer method
   useEffect(() => {
-    calculateNetAPayer(); // Run NetAPayer calculation after nbrDejeuner, nbrDiner, nbrDecoucher change
+    if (
+      num !== "" &&
+      dateDepart !== "" &&
+      heureDepart !== "" &&
+      dateRetour !== "" &&
+      heureRetour !== "" &&
+      destination !== "" &&
+      categorie !== null &&
+      priseEnCharge !== ""
+    ) {
+      calculateNetAPayer();
+    }
   }, [
     num,
     dateDepart,
@@ -431,8 +451,8 @@ const AddMissionOrderModal = ({
                   <option value="" disabled>
                     {t("Prise_En_Charge")}
                   </option>
-                  <option value="No">{t("No")}</option>
-                  <option value="Yes">{t("Yes")}</option>
+                  <option value="Non">{t("No")}</option>
+                  <option value="Oui">{t("Yes")}</option>
                 </select>
               </div>
               <div className="col d-flex justify-content-end align-items-end">

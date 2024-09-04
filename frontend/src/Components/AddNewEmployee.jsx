@@ -1,18 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import api from "../Services/api";
 import { useTranslation } from "react-i18next";
+import Select from "react-select";
 
 const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
   const { t } = useTranslation();
+  const [nomPrenomArabic, setNomPrenomArabic] = useState(""); // State for NomPrenomArabic
   const [nomPrenom, setNomPrenom] = useState("");
   const [grade, setGrade] = useState("");
   const [categorie, setCategorie] = useState("");
   const [compte, setCompte] = useState("");
   const [nCompte, setNCompte] = useState("");
+  const [gradeOptions, setGradeOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchGrades = async () => {
+      try {
+        const response = await api.get("/grades");
+        const options = response.data.result.map((grade) => ({
+          value: grade.ID,
+          label: grade.Grade,
+        }));
+        setGradeOptions(options);
+      } catch (error) {
+        console.error(t("Error fetching grades"), error);
+      }
+    };
+
+    fetchGrades();
+  }, [t]);
 
   const clearForm = () => {
+    setNomPrenomArabic("");
     setNomPrenom("");
     setGrade("");
     setCategorie("");
@@ -23,7 +44,14 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!nomPrenom || !grade || !categorie || !compte || !nCompte) {
+    if (
+      !nomPrenomArabic ||
+      !nomPrenom ||
+      !grade ||
+      !categorie ||
+      !compte ||
+      !nCompte
+    ) {
       Swal.fire({
         title: t("Error"),
         text: t("RequiredField"),
@@ -33,15 +61,15 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
     }
 
     const formData = {
+      NomPrenomArabic: nomPrenomArabic,
       NomPrenom: nomPrenom,
-      Grade: grade,
+      Grade: grade.label,
       Categorie: categorie,
       Compte: compte,
       NCompte: nCompte,
     };
 
     try {
-      // Add new employee
       const response = await api.post("/employee", formData);
       console.log(t("Employee added successfully:"), response.data);
       Swal.fire({
@@ -49,9 +77,9 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
         text: t("Employee_Added_Successfully"),
         icon: "success",
       }).then(() => {
-        setModalShow(false); // Close the modal
-        fetchEmployees(); // Refresh the list of employees
-        clearForm(); // Clear form fields after submission
+        setModalShow(false);
+        fetchEmployees();
+        clearForm();
       });
     } catch (error) {
       console.error(t("Error_Adding_Employee"), error);
@@ -93,15 +121,26 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
                 <input
                   className="form-control"
                   type="text"
-                  value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
-                  placeholder={t("Grade")}
+                  value={nomPrenomArabic}
+                  onChange={(e) => setNomPrenomArabic(e.target.value)}
+                  placeholder={t("NameArabic")}
                   required
                 />
               </div>
             </div>
           </div>
           <div className="row my-3">
+            <div className="col-md-6">
+              <div className="form-group">
+                <Select
+                  value={grade}
+                  onChange={setGrade}
+                  options={gradeOptions}
+                  placeholder={t("Select_Grade")}
+                  required
+                />
+              </div>
+            </div>
             <div className="col-md-6">
               <div className="form-group">
                 <input
@@ -114,6 +153,8 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
                 />
               </div>
             </div>
+          </div>
+          <div className="row my-3">
             <div className="col-md-6">
               <div className="form-group">
                 <input
@@ -126,8 +167,6 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
                 />
               </div>
             </div>
-          </div>
-          <div className="row my-3">
             <div className="col-md-6">
               <div className="form-group">
                 <input

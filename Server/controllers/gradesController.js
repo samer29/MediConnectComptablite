@@ -1,23 +1,23 @@
-const con = require("../db");
+  const con = require("../db");
 
-exports.getGrades = (req, res) => {
-  try {
-    con.query("SELECT * FROM grades ORDER BY ID ASC", (err, result) => {
-      if (err) {
-        console.log(err.message);
-        res.status(500).send("Server Error");
-      } else {
-        res.status(200).json({
-          results: result.length,
-          result,
-        });
-      }
-    });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Server Error");
-  }
-};
+  exports.getGrades = (req, res) => {
+    try {
+      con.query("SELECT * FROM grades ORDER BY ID ASC", (err, result) => {
+        if (err) {
+          console.log(err.message);
+          res.status(500).send("Server Error");
+        } else {
+          res.status(200).json({
+            results: result.length,
+            result,
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Server Error");
+    }
+  };
 
 exports.insertGrades = (req, res) => {
   const { Grade } = req.body;

@@ -41,7 +41,7 @@ const AddNewEtat = ({
       const fetchMissions = async () => {
         try {
           const response = await api.get(
-            `/ordremission/0?NomPrenom=${selectedEmployee.value}`
+            `/ordremission/NewEtat/0?NomPrenom=${selectedEmployee.value}`
           );
           setMissions(response.data);
         } catch (error) {

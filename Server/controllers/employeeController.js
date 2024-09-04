@@ -20,11 +20,12 @@ exports.getEmployee = (req, res) => {
 };
 
 exports.insertEmployee = (req, res) => {
-  const { NomPrenom, Grade, Categorie, Compte, NCompte } = req.body;
+  const { NomPrenom, NomPrenomArabic, Grade, Categorie, Compte, NCompte } =
+    req.body;
   try {
     con.query(
-      "INSERT INTO employee (NomPrenom, Grade, Categorie, Compte, NCompte) VALUES (?,?,?,?,?)",
-      [NomPrenom, Grade, Categorie, Compte, NCompte],
+      "INSERT INTO employee (NomPrenom, NomPrenomArabic,Grade, Categorie, Compte, NCompte) VALUES (?,?,?,?,?,?)",
+      [NomPrenom, NomPrenomArabic, Grade, Categorie, Compte, NCompte],
       (err, result) => {
         if (err) {
           console.log("Error inserting employee:", err.message);
@@ -45,7 +46,8 @@ exports.insertEmployee = (req, res) => {
 
 exports.editEmployee = (req, res) => {
   const id = req.params.id;
-  const { NomPrenom, Grade, Categorie, Compte, NCompte } = req.body;
+  const { NomPrenom, NomPrenomArabic, Grade, Categorie, Compte, NCompte } =
+    req.body;
 
   // Fetch the current data for the employee
   try {
@@ -60,6 +62,7 @@ exports.editEmployee = (req, res) => {
         const currentData = result[0];
         const updatedData = {
           NomPrenom: NomPrenom || currentData.NomPrenom,
+          NomPrenomArabic: NomPrenomArabic || currentData.NomPrenomArabic,
           Grade: Grade || currentData.Grade,
           Categorie: Categorie || currentData.Categorie,
           Compte: Compte || currentData.Compte,
@@ -68,9 +71,10 @@ exports.editEmployee = (req, res) => {
 
         // Update the employee with the provided values or keep the existing ones
         con.query(
-          "UPDATE employee SET NomPrenom=?, Grade=?, Categorie=?, Compte=?, NCompte=? WHERE ID=?",
+          "UPDATE employee SET NomPrenom=?,NomPrenomArabic=?, Grade=?, Categorie=?, Compte=?, NCompte=? WHERE ID=?",
           [
             updatedData.NomPrenom,
+            updatedData.NomPrenomArabic,
             updatedData.Grade,
             updatedData.Categorie,
             updatedData.Compte,
