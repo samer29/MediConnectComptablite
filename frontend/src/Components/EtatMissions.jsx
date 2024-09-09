@@ -73,6 +73,7 @@ const EtatMissions = () => {
           categorie: firstMission.Categorie,
           compte: firstMission.Compte,
           ncompte: firstMission.NCompte,
+          postedetail: firstMission.PosteDetail, // Ensure this is the correct field name
         });
       }
     } catch (error) {
@@ -138,29 +139,27 @@ const EtatMissions = () => {
     doc.setFont("Times New Roman", "bold");
     doc.text(`${employeeData.grade}`, 35, 55);
     doc.setFont("Times New Roman", "normal");
-    doc.text("Categorie : ", 10, 60);
+    doc.text("Categorie : ", 10, 60); // Regular font for label
     doc.setFont("Times New Roman", "bold");
-    if (employeeData.categorie > 17) {
-      if (employeeData.grade === "Administrateur Principale") {
-        doc.text("14", 35, 60);
-      } else {
-        doc.text("16", 35, 60);
-      }
-    } else {
-      doc.text(`${employeeData.categorie}`, 35, 60);
+    doc.text(`${employeeData.categorie}`, 35, 60);
+    doc.setFont("Times New Roman", "normal"); // Reset font to normal
+    doc.text("Compte : ", 100, 50); // Regular font for label
+    doc.setFont("Times New Roman", "bold"); // Set font to Helvetica with bold style
+    doc.text(`${employeeData.compte}`, 145, 50); // Bold value
+    doc.setFont("Times New Roman", "normal"); // Reset font to normal
+    doc.text("N°Compte : ", 100, 55); // Regular font for label
+    doc.setFont("Times New Roman", "bold"); // Set font to Helvetica with bold style
+    doc.text(`${employeeData.ncompte}`, 145, 55); // Bold value
+    doc.setFont("Times New Roman", "normal"); // Reset font to normal
+    doc.text("Résidence administrative :", 100, 60); // Regular font for label
+    doc.setFont("Times New Roman", "bold"); // Set font to Helvetica with bold style
+    doc.text("Mascara", 145, 60); // Regular font for label
+    doc.setFont("Times New Roman", "normal"); // Reset font to normal
+    if (employeeData.postedetail != null) {
+      doc.text("Poste Supérieur : ", 10, 65); // Label for Poste Superieur
+      doc.setFont("Times New Roman", "bold"); // Bold font for the PosteDetail
+      doc.text(`${employeeData.postedetail}`, 40, 65); // Value for PosteDetail
     }
-    doc.setFont("Times New Roman", "normal");
-    doc.text("Compte : ", 100, 50);
-    doc.setFont("Times New Roman", "bold");
-    doc.text(`${employeeData.compte}`, 145, 50);
-    doc.setFont("Times New Roman", "normal");
-    doc.text("N°Compte : ", 100, 55);
-    doc.setFont("Times New Roman", "bold");
-    doc.text(`${employeeData.ncompte}`, 145, 55);
-    doc.setFont("Times New Roman", "normal");
-    doc.text("Résidence administrative :", 100, 60);
-    doc.setFont("Times New Roman", "bold");
-    doc.text("Mascara", 145, 60);
     // Table Columns
     const tableColumn = [
       { header: "N°OrdreMission", dataKey: "Num" },
@@ -231,7 +230,7 @@ const EtatMissions = () => {
     doc.autoTable({
       columns: tableColumn,
       body: tableRows,
-      startY: 65,
+      startY: 70,
       styles: {
         font: "Times News Roman",
         fontSize: 9,

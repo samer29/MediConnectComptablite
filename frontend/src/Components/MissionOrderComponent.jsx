@@ -195,7 +195,7 @@ const MissionOrderComponent = ({ searchQuery }) => {
         categorie: missions[0].Categorie,
         compte: missions[0].Compte,
         ncompte: missions[0].NCompte,
-        postedetail: missions[0].PosteDetail,
+        postedetail: missions[0].PosteDetail, // Ensure this is the correct field name
       };
 
       const doc = new jsPDF();
@@ -238,16 +238,8 @@ const MissionOrderComponent = ({ searchQuery }) => {
       doc.text(`${employeeData.grade}`, 35, 55); // Bold value
       doc.setFont("Times New Roman", "normal"); // Reset font to normal
       doc.text("Categorie : ", 10, 60); // Regular font for label
-      doc.setFont("Times New Roman", "bold"); // Set font to Helvetica with bold style
-      if (employeeData.categorie > 17) {
-        if (employeeData.grade === "Administrateur Principale") {
-          doc.text("14", 35, 60);
-        } else {
-          doc.text("16", 35, 60);
-        }
-      } else {
-        doc.text(`${employeeData.categorie}`, 35, 60);
-      }
+      doc.setFont("Times New Roman", "bold");
+      doc.text(`${employeeData.categorie}`, 35, 60);
       doc.setFont("Times New Roman", "normal"); // Reset font to normal
       doc.text("Compte : ", 100, 50); // Regular font for label
       doc.setFont("Times New Roman", "bold"); // Set font to Helvetica with bold style
@@ -260,6 +252,12 @@ const MissionOrderComponent = ({ searchQuery }) => {
       doc.text("Résidence administrative :", 100, 60); // Regular font for label
       doc.setFont("Times New Roman", "bold"); // Set font to Helvetica with bold style
       doc.text("Mascara", 145, 60); // Regular font for label
+      doc.setFont("Times New Roman", "normal"); // Reset font to normal
+      if (employeeData.postedetail != null) {
+        doc.text("Poste Supérieur : ", 10, 65); // Label for Poste Superieur
+        doc.setFont("Times New Roman", "bold"); // Bold font for the PosteDetail
+        doc.text(`${employeeData.postedetail}`, 40, 65); // Value for PosteDetail
+      }
       // Table Columns
       const tableColumn = [
         { header: "N°OrdreMission", dataKey: "Num" },
@@ -330,7 +328,7 @@ const MissionOrderComponent = ({ searchQuery }) => {
       doc.autoTable({
         columns: tableColumn,
         body: tableRows,
-        startY: 65,
+        startY: 70,
         styles: {
           font: "Times News Roman",
           fontSize: 9,
