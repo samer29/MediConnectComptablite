@@ -3,7 +3,7 @@ import { FaTrash } from "react-icons/fa"; // Import Font Awesome Trash icon
 import api from "../Services/api";
 import { useTranslation } from "react-i18next";
 
-const SettingsComponent = () => {
+const SettingsComponent = ({ searchQuery }) => {
   const [grade, setGrade] = useState("");
   const [grades, setGrades] = useState([]);
   const { t } = useTranslation();
@@ -42,18 +42,27 @@ const SettingsComponent = () => {
     }
   };
 
+  // Filtered grades based on search query passed as prop
+  const filteredGrades = grades.filter((g) =>
+    g.Grade.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="container">
-      <div className="mb-3">
+      <div className="mb-3 d-flex align-items-center">
         <input
           type="text"
-          className="form-control d-inline-block w-auto mr-2"
+          className="form-control d-inline-block w-auto mr-3"
           value={grade}
           onChange={(e) => setGrade(e.target.value)}
           placeholder={t("Enter_Grade")}
         />
-        <button className="btn btn-primary" onClick={handleAddGrade}>
-          {t("Add")}  
+        <button
+          className="btn btn-primary"
+          onClick={handleAddGrade}
+          style={{ margin: "10px 20px" }}
+        >
+          {t("Add")}
         </button>
       </div>
 
@@ -62,11 +71,11 @@ const SettingsComponent = () => {
           <tr>
             <th>{t("Num")}</th>
             <th>{t("Grade")}</th>
-            <th>{t("Actions")}</th>
+            <th>{t("Delete")}</th>
           </tr>
         </thead>
         <tbody>
-          {grades.map((g) => (
+          {filteredGrades.map((g) => (
             <tr key={g.ID}>
               <td>{g.ID}</td>
               <td>{g.Grade}</td>

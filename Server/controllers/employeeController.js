@@ -20,12 +20,29 @@ exports.getEmployee = (req, res) => {
 };
 
 exports.insertEmployee = (req, res) => {
-  const { NomPrenom, NomPrenomArabic, Grade, Categorie, Compte, NCompte } =
-    req.body;
+  const {
+    NomPrenom,
+    NomPrenomArabic,
+    Grade,
+    Categorie,
+    Compte,
+    NCompte,
+    PosteSup,
+    PosteDetail,
+  } = req.body;
   try {
     con.query(
-      "INSERT INTO employee (NomPrenom, NomPrenomArabic,Grade, Categorie, Compte, NCompte) VALUES (?,?,?,?,?,?)",
-      [NomPrenom, NomPrenomArabic, Grade, Categorie, Compte, NCompte],
+      "INSERT INTO employee (NomPrenom, NomPrenomArabic,Grade, Categorie, Compte, NCompte,PosteSup,PosteDetail) VALUES (?,?,?,?,?,?,?,?)",
+      [
+        NomPrenom,
+        NomPrenomArabic,
+        Grade,
+        Categorie,
+        Compte,
+        NCompte,
+        PosteSup,
+        PosteDetail,
+      ],
       (err, result) => {
         if (err) {
           console.log("Error inserting employee:", err.message);

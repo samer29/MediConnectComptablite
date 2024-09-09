@@ -13,7 +13,7 @@ import { ToWords } from "to-words";
 import { toArabicWord } from "number-to-arabic-words/dist/index-node.js";
 import filetxt from "../Fonts/AmiriFont.dat";
 
-const MissionOrderComponent = () => {
+const MissionOrderComponent = ({ searchQuery }) => {
   const [fileContent, setFileContent] = useState("");
   const [budgets, setBudgets] = useState([]);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -23,7 +23,25 @@ const MissionOrderComponent = () => {
   const [etatModalShow, setEtatModalShow] = useState(false); // State for the new Etat modal
   const [currentMissionOrder, setCurrentMissionOrder] = useState(null);
   const [etats, setEtats] = useState([]);
+  const [filteredEtats, setFilteredEtats] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
 
+  useEffect(() => {
+    if (searchQuery) {
+      const employeeResults = employees.filter((employee) =>
+        employee.NomPrenom.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredEmployees(employeeResults);
+
+      const etatResults = etats.filter((etat) =>
+        etat.NomPrenom.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredEtats(etatResults);
+    } else {
+      setFilteredEmployees(employees);
+      setFilteredEtats(etats);
+    }
+  }, [searchQuery, employees, etats]);
   useEffect(() => {
     const fetchFileContent = async () => {
       try {
@@ -82,11 +100,6 @@ const MissionOrderComponent = () => {
   useEffect(() => {
     fetchEtats();
   }, []);
-
-  const handleEditClick = (employee) => {
-    setCurrentMissionOrder(employee);
-    setModalShow(true);
-  };
 
   const handleDelete = async (id) => {
     if (window.confirm(t("Sure_Deleting_OrdreMission"))) {
@@ -182,6 +195,7 @@ const MissionOrderComponent = () => {
         categorie: missions[0].Categorie,
         compte: missions[0].Compte,
         ncompte: missions[0].NCompte,
+        postedetail: missions[0].PosteDetail,
       };
 
       const doc = new jsPDF();
@@ -657,11 +671,11 @@ const MissionOrderComponent = () => {
                 <th>{t("DateDepart")}</th>
                 <th>{t("NetAPayer")}</th>
                 <th>{t("Status")}</th>
-                <th>{t("Actions")}</th>
+                <th>{t("Delete")}</th>
               </tr>
             </thead>
             <tbody>
-              {employees.map((employee) => (
+              {filteredEmployees.map((employee) => (
                 <tr
                   key={employee.Num}
                   onClick={() => hadndleOMdetail(employee.Num)}
@@ -683,16 +697,9 @@ const MissionOrderComponent = () => {
                   </td>
                   <td>
                     <Button
-                      className="btn btn-primary"
-                      onClick={() => handleEditClick(employee)}
-                      style={{ marginRight: "10px" }}
-                    >
-                      <i className="bi bi-pencil"></i>
-                    </Button>
-                    <Button
                       className="btn btn-danger"
                       onClick={(e) => {
-                        e.stopPropagation(); // Prevent row click
+                        e.stopPropagation();
                         handleDelete(employee.Num);
                       }}
                     >
@@ -715,13 +722,12 @@ const MissionOrderComponent = () => {
               </tr>
             </thead>
             <tbody>
-              {etats.map((etat) => (
+              {filteredEtats.map((etat) => (
                 <tr key={etat.ID} onClick={() => handleEtatClick(etat.ID)}>
                   <td>{etat.ID}</td>
                   <td>{etat.NomPrenom}</td>
                   <td>{etat.MontantTotal}</td>
                   <td>
-                    {" "}
                     <Button
                       className="btn btn-danger"
                       onClick={(e) => {
@@ -740,7 +746,11 @@ const MissionOrderComponent = () => {
                       }}
                       style={{ marginRight: "10px" }}
                     >
-                      <i className="bi bi-printer"></i>
+                      <i
+                        className="bi bi-printer"
+                        style={{ marginRight: "5px" }}
+                      ></i>
+                      {t("State")}
                     </Button>
                     <Button
                       className="btn btn-success"
@@ -749,7 +759,11 @@ const MissionOrderComponent = () => {
                         handlePrintMandat(etat.ID);
                       }}
                     >
-                      <i className="bi bi-printer"></i>
+                      <i
+                        className="bi bi-printer"
+                        style={{ marginRight: "5px" }}
+                      ></i>
+                      <i> {t("Mandat")}</i>
                     </Button>
                   </td>
                 </tr>

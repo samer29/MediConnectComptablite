@@ -33,6 +33,7 @@ const AddMissionOrderModal = ({
   const [total, setTotal] = useState(0.0);
   const [netAPayer, setNetAPayer] = useState(0.0);
   const [categorie, setCategorie] = useState(null);
+  const [PosteSup, setPosteSup] = useState(null);
   const [employees, setEmployees] = useState([]);
   const [selectedEmployeeID, setSelectedEmployeeID] = useState(""); // New state for selected ID
 
@@ -164,7 +165,13 @@ const AddMissionOrderModal = ({
     let newDecompteDecoucher = 0;
 
     if (categorie !== null) {
-      if (categorie >= 1 && categorie <= 10) {
+      // If PosteSup is "Oui", use these rates
+      if (PosteSup === "OUI") {
+        newDecompteDejeuner = 1600 * dejeuner;
+        newDecompteDiner = 1600 * diner;
+        newDecompteDecoucher = 6400 * decoucher;
+      }
+      else if (categorie >= 1 && categorie <= 10) {
         newDecompteDejeuner = 600 * dejeuner;
         newDecompteDiner = 600 * diner;
         newDecompteDecoucher = 2400 * decoucher;
@@ -172,25 +179,18 @@ const AddMissionOrderModal = ({
         newDecompteDejeuner = 800 * dejeuner;
         newDecompteDiner = 800 * diner;
         newDecompteDecoucher = 3200 * decoucher;
-      } else if (categorie > 17) {
-        newDecompteDejeuner = 1600 * dejeuner;
-        newDecompteDiner = 1600 * diner;
-        newDecompteDecoucher = 6400 * decoucher;
       }
-
       const totalCalculated =
         newDecompteDejeuner +
         newDecompteDiner +
         newDecompteDecoucher +
         decompteTransport;
-
       let net = 0;
       if (priseEnCharge === "Oui") {
         net = totalCalculated * 0.25;
       } else {
         net = totalCalculated;
       }
-
       setDecompteDejeuner(newDecompteDejeuner);
       setDecompteDiner(newDecompteDiner);
       setDecompteDecoucher(newDecompteDecoucher);
@@ -248,18 +248,19 @@ const AddMissionOrderModal = ({
   const handleEmployeeChange = (e) => {
     const selectedID = parseInt(e.target.value, 10);
     const selectedEmployee = employees.find((emp) => emp.ID === selectedID);
-
     if (selectedEmployee) {
       setSelectedEmployeeID(selectedID); // Set the selected employee's ID
       setNomPrenom(selectedEmployee.NomPrenom);
       setCategorie(selectedEmployee.Categorie);
+      setPosteSup(selectedEmployee.PosteSup);
     }
   };
   useEffect(() => {
     if (categorie !== null) {
       console.log("Category updated:", categorie);
+      console.log("Poste updated:", PosteSup);
     }
-  }, [categorie]);
+  }, [categorie, PosteSup]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -460,7 +461,7 @@ const AddMissionOrderModal = ({
                   onClick={handleSubmit}
                   className="btn btn-primary form-control"
                 >
-                  {t("Submit")}
+                  {t("Add")}
                 </button>
               </div>
             </div>

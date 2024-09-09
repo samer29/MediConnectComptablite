@@ -3,14 +3,15 @@ import { useTranslation } from "react-i18next";
 import api from "../Services/api";
 import "../Style/EmployeeComponent.css";
 import { Button } from "react-bootstrap";
-import AddEmployeeModal from "./AddNewEmployee"; // Updated import
+import AddEmployeeModal from "./AddNewEmployee";
 
-const EmployeesComponent = () => {
+const EmployeesComponent = ({ searchQuery }) => {
   const { t } = useTranslation();
   const [employees, setEmployees] = useState([]);
   const [editingCell, setEditingCell] = useState(null);
   const [editedValue, setEditedValue] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -24,6 +25,14 @@ const EmployeesComponent = () => {
 
     fetchEmployees();
   }, []);
+
+  useEffect(() => {
+    // Filter employees based on the search query (by name)
+    const results = employees.filter((employee) =>
+      employee.NomPrenom.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredData(results);
+  }, [searchQuery, employees]);
 
   const handleDoubleClick = (id, field, currentValue) => {
     setEditingCell({ id, field });
@@ -58,7 +67,7 @@ const EmployeesComponent = () => {
   };
 
   const handleAddClick = () => {
-    setModalShow(true); // Open the modal
+    setModalShow(true);
   };
 
   const handleDelete = async (id) => {
@@ -85,11 +94,11 @@ const EmployeesComponent = () => {
             <th>{t("Categorie")}</th>
             <th>{t("Compte")}</th>
             <th>{t("NCompte")}</th>
-            <th>{t("Actions")}</th> {/* Actions column */}
+            <th>{t("Delete")}</th>
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
+          {filteredData.map((employee) => (
             <tr key={employee.ID}>
               <td>{employee.ID}</td>
               <td
@@ -203,12 +212,10 @@ const EmployeesComponent = () => {
         </tbody>
       </table>
 
-      {/* Floating Action Button */}
       <div className="fab" onClick={handleAddClick} title={t("AddNewEmployee")}>
         <span>+</span>
       </div>
 
-      {/* Add Employee Modal */}
       <AddEmployeeModal
         fetchEmployees={() => {
           api.get("/employee").then((response) => {

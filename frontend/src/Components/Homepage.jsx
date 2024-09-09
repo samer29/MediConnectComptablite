@@ -25,11 +25,11 @@ const Homepage = ({ setAuth }) => {
       case "Home":
         return <HomeComponent searchQuery={searchQuery} />;
       case "Employees":
-        return <EmployeesComponent />;
+        return <EmployeesComponent searchQuery={searchQuery} />;
       case "MissionOrder":
-        return <MissionOrderComponent />;
+        return <MissionOrderComponent searchQuery={searchQuery} />;
       case "Settings":
-        return <SettingsComponent />;
+        return <SettingsComponent searchQuery={searchQuery} />;
       case "Printing":
         return <PrintingComponent />;
       case "About":

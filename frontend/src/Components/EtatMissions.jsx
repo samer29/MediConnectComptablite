@@ -82,6 +82,24 @@ const EtatMissions = () => {
   const reverseArabicText = (text) => {
     return text.split("").reverse().join("");
   };
+  const handleDeleteMissionfromEtat = async (Num) => {
+    try {
+      // Make the API call to update the NumMandat to 0
+      const response = await api.put(
+        `/ordremission/updateDeleteNumMandat/${Num}`
+      );
+
+      if (response.status === 200) {
+        console.log(`NumMandat for mission ${Num} updated to 0 successfully`);
+        // Fetch the updated missions list after successful deletion
+        fetchMissions();
+      } else {
+        console.error("Failed to update NumMandat:", response.data.error);
+      }
+    } catch (error) {
+      console.error("Error updating NumMandat:", error.message);
+    }
+  };
 
   const handlePrintEtat = () => {
     const doc = new jsPDF();
@@ -525,7 +543,7 @@ const EtatMissions = () => {
                 <th>{t("DateDepart")}</th>
                 <th>{t("DateRetour")}</th>
                 <th>{t("NetAPayer")}</th>
-                <th>{t("Actions")}</th>
+                <th>{t("Delete")}</th>
               </tr>
             </thead>
             <tbody>
@@ -536,7 +554,10 @@ const EtatMissions = () => {
                   <td>{new Date(mission.DateRetour).toLocaleDateString()}</td>
                   <td>{mission.NetAPayer.toFixed(2)}</td>
                   <td>
-                    <Button className="btn btn-danger">
+                    <Button
+                      className="btn btn-danger"
+                      onClick={() => handleDeleteMissionfromEtat(mission.Num)}
+                    >
                       <i className="bi bi-trash"></i>
                     </Button>
                   </td>

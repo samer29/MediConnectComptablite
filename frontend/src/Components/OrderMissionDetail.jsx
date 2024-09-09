@@ -39,9 +39,8 @@ const OrderMissionDetail = () => {
   const handleBlur = async () => {
     if (editingCell) {
       try {
-        await api.put(`/ordremission/${orderId}`, {
-          [editingCell]: editedValue,
-        });
+        const updatedData = { [editingCell]: editedValue };
+        await api.put(`/ordremission/${orderId}`, updatedData);
         setMissionDetail((prevDetail) => ({
           ...prevDetail,
           [editingCell]: editedValue,
@@ -319,7 +318,7 @@ const OrderMissionDetail = () => {
           </tbody>
         </table>
         <div className="button-container">
-          <Button variant="secondary" onClick={handleBack}>
+          <Button variant="primary" onClick={handleBack}>
             {t("Back")}
           </Button>
         </div>

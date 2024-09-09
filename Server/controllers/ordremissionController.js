@@ -22,59 +22,57 @@ exports.getOrdremission = (req, res) => {
   }
 };
 
-// Edit ordremission
+// Edit a specific ordremission
 exports.editOrdremission = (req, res) => {
   const id = req.params.id;
   const {
-    EmployeeId,
     NomPrenom,
-    NumMandat,
     DateDepart,
     HeureDepart,
     DateRetour,
     HeureRetour,
-    Destination,
-    PriseEnCharge,
-    Motif,
-    VehiculePersonnel,
     NbrDejeuner,
     DecompteDejuner,
     NbrDiner,
     DecompteDiner,
     NbrDecoucher,
     DecompteDecoucher,
-    DecompteTransport,
-    Kilometrage,
-    Total,
     NetAPayer,
   } = req.body;
-  try {
+
+  // Step 1: Fetch the existing record
+  con.query("SELECT * FROM ordremission WHERE Num = ?", [id], (err, result) => {
+    if (err) {
+      console.log("Error fetching Ordremission:", err.message);
+      return res.status(500).send("Fetch error: " + err.message);
+    }
+
+    if (result.length === 0) {
+      return res.status(404).send("Record not found");
+    }
+
+    const existingRecord = result[0];
+
+    // Step 2: Create the updated fields object
+    const updatedFields = {
+      NomPrenom: NomPrenom || existingRecord.NomPrenom,
+      DateDepart: DateDepart || existingRecord.DateDepart,
+      HeureDepart: HeureDepart || existingRecord.HeureDepart,
+      DateRetour: DateRetour || existingRecord.DateRetour,
+      HeureRetour: HeureRetour || existingRecord.HeureRetour,
+      NbrDejeuner: NbrDejeuner || existingRecord.NbrDejeuner,
+      DecompteDejuner: DecompteDejuner || existingRecord.DecompteDejuner,
+      NbrDiner: NbrDiner || existingRecord.NbrDiner,
+      DecompteDiner: DecompteDiner || existingRecord.DecompteDiner,
+      NbrDecoucher: NbrDecoucher || existingRecord.NbrDecoucher,
+      DecompteDecoucher: DecompteDecoucher || existingRecord.DecompteDecoucher,
+      NetAPayer: NetAPayer || existingRecord.NetAPayer,
+    };
+
+    // Step 3: Update the record
     con.query(
-      "UPDATE ordremission SET EmployeeId = ? ,  NomPrenom=?, NumMandat=?, DateDepart=?, HeureDepart=?, DateRetour=?, HeureRetour=?, Destination=?, PriseEnCharge=?, Motif=?, VehiculePersonnel=?, NbrDejeuner=?, DecompteDejuner=?, NbrDiner=?, DecompteDiner=?, NbrDecoucher=?, DecompteDecoucher=?, DecompteTransport=?, Kilometrage=?, Total=?, NetAPayer=? WHERE Num=?",
-      [
-        EmployeeId,
-        NomPrenom,
-        NumMandat,
-        DateDepart,
-        HeureDepart,
-        DateRetour,
-        HeureRetour,
-        Destination,
-        PriseEnCharge,
-        Motif,
-        VehiculePersonnel,
-        NbrDejeuner,
-        DecompteDejuner,
-        NbrDiner,
-        DecompteDiner,
-        NbrDecoucher,
-        DecompteDecoucher,
-        DecompteTransport,
-        Kilometrage,
-        Total,
-        NetAPayer,
-        id,
-      ],
+      "UPDATE ordremission SET ? WHERE Num = ?",
+      [updatedFields, id],
       (err, result) => {
         if (err) {
           console.log("Error updating Ordremission:", err.message);
@@ -87,11 +85,9 @@ exports.editOrdremission = (req, res) => {
         }
       }
     );
-  } catch (error) {
-    console.log("Error updating Ordremission:", error.message);
-    res.status(500).send("Edit error: " + error.message);
-  }
+  });
 };
+
 exports.selectNomfromOrder = (req, res) => {
   try {
     const query =

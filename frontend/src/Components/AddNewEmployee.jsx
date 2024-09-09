@@ -7,13 +7,25 @@ import Select from "react-select";
 
 const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
   const { t } = useTranslation();
-  const [nomPrenomArabic, setNomPrenomArabic] = useState(""); // State for NomPrenomArabic
+  const [nomPrenomArabic, setNomPrenomArabic] = useState("");
   const [nomPrenom, setNomPrenom] = useState("");
   const [grade, setGrade] = useState("");
   const [categorie, setCategorie] = useState("");
   const [compte, setCompte] = useState("");
   const [nCompte, setNCompte] = useState("");
   const [gradeOptions, setGradeOptions] = useState([]);
+
+  // State for Poste Supérieur
+  const [isPosteSuperieur, setIsPosteSuperieur] = useState(false);
+  const [posteDetail, setPosteDetail] = useState(null);
+
+  // Poste Supérieur options
+  const posteOptions = [
+    { value: "Directeur", label: "Directeur" },
+    { value: "Sous directeur", label: "Sous directeur" },
+    { value: "Chef Service", label: "Chef Service" },
+    { value: "Chef Bureau", label: "Chef Bureau" },
+  ];
 
   useEffect(() => {
     const fetchGrades = async () => {
@@ -39,6 +51,8 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
     setCategorie("");
     setCompte("");
     setNCompte("");
+    setIsPosteSuperieur(false);
+    setPosteDetail(null);
   };
 
   const handleSubmit = async (e) => {
@@ -67,6 +81,8 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
       Categorie: categorie,
       Compte: compte,
       NCompte: nCompte,
+      PosteSup: isPosteSuperieur ? "OUI" : "NON",
+      PosteDetail: isPosteSuperieur ? posteDetail?.value : null,
     };
 
     try {
@@ -129,6 +145,7 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
               </div>
             </div>
           </div>
+
           <div className="row my-3">
             <div className="col-md-6">
               <div className="form-group">
@@ -154,6 +171,42 @@ const AddEmployeeModal = ({ fetchEmployees, setModalShow, modalShow }) => {
               </div>
             </div>
           </div>
+
+          {/* Poste Supérieur Checkbox */}
+          <div className="row my-3">
+            <div className="col-md-12">
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="posteSuperieurCheck"
+                  checked={isPosteSuperieur}
+                  onChange={() => setIsPosteSuperieur(!isPosteSuperieur)}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor="posteSuperieurCheck"
+                >
+                  {t("Poste_Superieur")}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Poste Detail Dropdown (shows if Poste Supérieur is checked) */}
+          {isPosteSuperieur && (
+            <div className="row my-3">
+              <div className="col-md-12">
+                <Select
+                  value={posteDetail}
+                  onChange={setPosteDetail}
+                  options={posteOptions}
+                  placeholder={t("Select_Poste_Detail")}
+                />
+              </div>
+            </div>
+          )}
+
           <div className="row my-3">
             <div className="col-md-6">
               <div className="form-group">
