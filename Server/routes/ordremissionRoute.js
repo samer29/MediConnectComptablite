@@ -25,5 +25,6 @@ router
   .get(ordremissionController.getMissionAndNumMandat);
 router.get("/nomprenom/:num", ordremissionController.getNomPrenomFromOM);
 router.route("/calculatemeals").post(ordremissionController.calculateMeals);
+router.get("/NewEtat/0", ordremissionController.getMissionsByEtatId);
 
 module.exports = router;

@@ -338,6 +338,42 @@ exports.getNomPrenomFromOM = (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+// controllers/ordremissionController.js
+
+// New function to get missions by etatId
+exports.getMissionsByEtatId = (req, res) => {
+  const { etatId } = req.query;
+
+  if (!etatId) {
+    return res.status(400).json({ error: "etatId is required" });
+  }
+
+  try {
+    // Fetch missions based on etatId
+    con.query(
+      "SELECT * FROM ordremission WHERE EtatId = ?",
+      [etatId],
+      (err, result) => {
+        if (err) {
+          console.error("Error fetching missions:", err.message);
+          return res.status(500).json({ error: "Failed to retrieve data" });
+        }
+
+        if (result.length === 0) {
+          return res
+            .status(404)
+            .json({ error: "No missions found for the given etatId" });
+        }
+
+        res.status(200).json(result);
+      }
+    );
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 exports.getMissionOrderByNum = (req, res) => {
   const { id } = req.params; // Get the id from the URL parameters
 

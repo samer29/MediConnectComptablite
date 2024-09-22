@@ -170,8 +170,7 @@ const AddMissionOrderModal = ({
         newDecompteDejeuner = 1600 * dejeuner;
         newDecompteDiner = 1600 * diner;
         newDecompteDecoucher = 6400 * decoucher;
-      }
-      else if (categorie >= 1 && categorie <= 10) {
+      } else if (categorie >= 1 && categorie <= 10) {
         newDecompteDejeuner = 600 * dejeuner;
         newDecompteDiner = 600 * diner;
         newDecompteDecoucher = 2400 * decoucher;
@@ -316,10 +315,41 @@ const AddMissionOrderModal = ({
           }
         }
       } catch (error) {
-        console.error("Error inserting ordremission:", error.response.data);
+        // Log the error details in the console for debugging
+        console.error(
+          "Error inserting ordremission:",
+          error.response?.data || error.message
+        );
+
+        let errorMessage = t("Error_Adding_OrderMission"); // Default error message
+
+        // Check if the error is from the backend and contains detailed info
+        if (error.response && error.response.data) {
+          // Check if the error contains a MySQL error message (like duplicate entry)
+          if (error.response.data.message) {
+            errorMessage = error.response.data.message;
+          } else if (error.response.data.code === "ER_DUP_ENTRY") {
+            // Specific handling for MySQL duplicate entry error
+            errorMessage = t("Duplicate_Entry_Error"); // Custom message or use the backend message
+          } else if (error.response.data.errors) {
+            // Handle validation errors, if available
+            const validationErrors = Object.values(
+              error.response.data.errors
+            ).join(", ");
+            errorMessage = `${t("Validation_Error")}: ${validationErrors}`;
+          }
+        } else if (error.request) {
+          // Handle no response from the server
+          errorMessage = t("No_Response_From_Server");
+        } else {
+          // Handle other types of errors (e.g., network or unknown errors)
+          errorMessage = error.message;
+        }
+
+        // Display the error message to the user
         Swal.fire({
           title: t("Error"),
-          text: t("Error_Adding_Or_Updating_OrderMission"),
+          text: errorMessage, // Show the extracted or default error message
           icon: "error",
         });
       }

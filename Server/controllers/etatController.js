@@ -159,7 +159,7 @@ exports.getEmployeeEtats = (req, res) => {
   const { id } = req.params;
   try {
     con.query(
-      "SELECT Num,EmployeeId,ordremission.NomPrenom,NomPrenomArabic,NumMandat,DateDepart,HeureDepart,DateRetour,HeureRetour,Destination,PriseEnCharge,NbrDejeuner,DecompteDejuner,NbrDiner,DecompteDiner,NbrDecoucher,DecompteDecoucher,Total,NetAPayer,etat.MontantTotal,etat.ID,employee.Grade,employee.Categorie,employee.Compte,employee.NCompte  FROM ordremission  JOIN etat ON ordremission.NumMandat = etat.ID JOIN employee ON ordremission.EmployeeId = employee.ID WHERE etat.ID = ?",
+      "SELECT Num,EmployeeId,ordremission.NomPrenom,NomPrenomArabic,PosteDetail,NumMandat,DateDepart,HeureDepart,DateRetour,HeureRetour,Destination,PriseEnCharge,NbrDejeuner,DecompteDejuner,NbrDiner,DecompteDiner,NbrDecoucher,DecompteDecoucher,Total,NetAPayer,etat.MontantTotal,etat.ID,employee.Grade,employee.Categorie,employee.Compte,employee.NCompte  FROM ordremission  JOIN etat ON ordremission.NumMandat = etat.ID JOIN employee ON ordremission.EmployeeId = employee.ID WHERE etat.ID = ?",
 
       [id],
       (err, result) => {

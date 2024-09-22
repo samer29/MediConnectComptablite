@@ -60,8 +60,7 @@ const resources = {
       Select_Employee: "Select Employee",
       NumOrdreMission: "Mission Order Number",
       Add_New_OrderMission: "Add New Mission Order",
-      Error_Adding_Or_Updating_OrderMission:
-        "Error adding or updating a mission order",
+      Error_Adding_OrderMission: "Error adding a mission order",
       OrdreMission_Added_Successfully: "Mission Order Added Successfully",
       Error_Fetching_Employee: "Error Fetching Employee Data",
       DateRetourAfterDateDepart:
@@ -94,6 +93,9 @@ const resources = {
       State: "State",
       Mandat: "Mandate",
       Print: "Print",
+      Poste_Superieur: "Senior Position",
+      Select_Poste_Detail: "Select details ",
+      Select_Grade: "Select Rank",
     },
   },
   fr: {
@@ -155,8 +157,7 @@ const resources = {
       Select_Employee: "Sélectionner un Employé",
       NumOrdreMission: "Numéro d'Ordre de Mission",
       Add_New_OrderMission: "Ajouter un Nouvel Ordre de Mission",
-      Error_Adding_Or_Updating_OrderMission:
-        "Erreur lors de l'ajout ou de la mise à jour de l'ordre de mission",
+      Error_Adding_OrderMission: "Erreur lors de l'ajout de l'ordre de mission",
       OrdreMission_Added_Successfully: "Ordre de Mission ajouté avec succès",
       Error_Fetching_Employee:
         "Erreur lors de la récupération des données de l'employé",
@@ -191,6 +192,9 @@ const resources = {
       State: "Etat",
       Mandat: "Mandat",
       Print: "Imprimer",
+      Poste_Superieur: "Poste Supérieur",
+      Select_Poste_Detail: "Selectionner détails ",
+      Select_Grade: "Selectionner Grade",
     },
   },
 };

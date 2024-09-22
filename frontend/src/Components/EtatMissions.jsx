@@ -10,6 +10,7 @@ import "../Style/EtatMissions.css"; // Custom CSS for styling
 import NavigationBar from "./NavigationBar"; // Navigation bar
 import filetxt from "../Fonts/AmiriFont.dat";
 import { toArabicWord } from "number-to-arabic-words/dist/index-node.js";
+import AddMissionsToEtat from "./AddMissionsToEtat"; // Make sure the path is correct
 
 const EtatMissions = () => {
   const [fileContent, setFileContent] = useState("");
@@ -17,8 +18,11 @@ const EtatMissions = () => {
   const [missions, setMissions] = useState([]);
   const [budgets, setBudgets] = useState([]);
   const [employeeData, setEmployeeData] = useState({});
+  const [showAddMissions, setShowAddMissions] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [employeeName, setEmployeeName] = useState(""); // Declare this at the top
+
   // Initialize useNavigate
   useEffect(() => {
     const fetchFileContent = async () => {
@@ -80,6 +84,22 @@ const EtatMissions = () => {
       console.error("Error fetching missions:", error.message);
     }
   };
+  const fetchAvailableMissions = async () => {
+    try {
+      const response = await api.get(
+        `/ordremission/NewEtat/0?etatId=${etatId}`
+      );
+      console.log(response.data); // Check if the data is being fetched
+      setMissions(response.data); // Populate the state with available missions
+
+      if (response.data.length > 0) {
+        setEmployeeName(response.data[0].NomPrenom); // Set employee name
+      }
+    } catch (error) {
+      console.error("Error fetching available missions:", error);
+    }
+  };
+
   const reverseArabicText = (text) => {
     return text.split("").reverse().join("");
   };
@@ -525,7 +545,14 @@ const EtatMissions = () => {
     // Open the PDF in a new tab
     window.open(doc.output("bloburl"), "_blank");
   };
+  const handleOpenModal = () => {
+    setShowAddMissions(true);
+  };
 
+  // Close modal and reset state
+  const handleCloseModal = () => {
+    setShowAddMissions(false);
+  };
   return (
     <div className="etat-missions-page">
       <div className="content-div">
@@ -572,6 +599,14 @@ const EtatMissions = () => {
             <Button onClick={handleMandatEtat} style={{ marginRight: "10px" }}>
               {t("PrintMandat")}
             </Button>
+
+            <AddMissionsToEtat
+              show={showAddMissions}
+              handleClose={() => setShowAddMissions(false)}
+              etatId={etatId}
+              fetchMissions={fetchMissions}
+            />
+
             <Button onClick={handleBack}>{t("Back")}</Button>
           </div>
         </div>

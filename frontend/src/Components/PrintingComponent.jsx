@@ -60,7 +60,7 @@ const PrintMissionOrdersModal = () => {
       doc.text("Etablissement Public Hospitalier", 10, 25);
       doc.text("MESLEM TAYEB - MASCARA", 10, 30);
       doc.text(
-        "Liste des ordres de mission :",
+        "Liste des ordres de mission",
         doc.internal.pageSize.width / 2,
         40,
         null,
@@ -266,10 +266,18 @@ const PrintMissionOrdersByEmployeeModal = () => {
           "center"
         );
 
-        const tableHeader = ["Num", "Date Depart", "Net A Payer"];
-        const tableData = employeeMissions.map((mission) => [
+        const tableHeader = [
+          "N°",
+          "Num",
+          "Date Depart",
+          "Date Retour",
+          "Net A Payer",
+        ];
+        const tableData = employeeMissions.map((mission, index) => [
+          index + 1,
           mission.Num,
           formatDate(mission.DateDepart),
+          formatDate(mission.DateRetour),
           mission.NetAPayer.toFixed(2),
         ]);
 
@@ -278,6 +286,35 @@ const PrintMissionOrdersByEmployeeModal = () => {
           body: tableData,
           startY: 60,
           margin: { top: 20 },
+          styles: {
+            font: "Times News Roman",
+            fontSize: 12,
+            cellPadding: 2, // Adjust padding for the cells
+            lineColor: [0, 0, 0], // Border color (black)
+            lineWidth: 0.1, // Border width (thin)
+          },
+          headStyles: {
+            fillColor: [211, 211, 211], // Light grey background for the header
+            textColor: [0, 0, 0], // Black text color
+            fontSize: 12, // Adjust header font size if needed
+            padding: 3, // Adjust padding for header cells
+            lineColor: [0, 0, 0], // Border color (black)
+            lineWidth: 0.1, // Border width for header (thin)
+          },
+          bodyStyles: {
+            fontSize: 12, // Font size for table body
+            cellPadding: 2, // Adjust padding for body cells
+            lineColor: [0, 0, 0], // Border color for body cells (black)
+            lineWidth: 0.1, // Border width for body cells (thin)
+          },
+          footStyles: {
+            lineColor: [0, 0, 0], // Border color for footer (black)
+            lineWidth: 0.1, // Border width for footer (thin)
+            fontStyle: "bold", // Bold font for footer
+          },
+          columnStyles: {
+            0: { fontStyle: "bold" },
+          },
         });
 
         const totalNetAPayer = employeeMissions.reduce(
